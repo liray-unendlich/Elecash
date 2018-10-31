@@ -29,7 +29,7 @@ env:
     - HOST=i686-pc-linux-gnu PACKAGES="g++-multilib bc python3-zmq" DEP_OPTS="NO_QT=1" RUN_TESTS=true GOAL="install" BITCOIN_CONFIG="--enable-zmq --enable-glibc-back-compat --enable-reduce-exports LDFLAGS=-static-libstdc++" USE_SHELL="/bin/dash" PYZMQ=true
 # Win64
     - HOST=x86_64-w64-mingw32 DPKG_ADD_ARCH="i386" DEP_OPTS="NO_QT=1" PACKAGES="python3 nsis g++-mingw-w64-x86-64 wine1.6 bc" RUN_TESTS=true GOAL="install" BITCOIN_CONFIG="--enable-reduce-exports"
-# phored
+# elecashd
     - HOST=x86_64-unknown-linux-gnu PACKAGES="bc python3-zmq" DEP_OPTS="NO_QT=1 NO_UPNP=1 DEBUG=1" RUN_TESTS=true GOAL="install" BITCOIN_CONFIG="--enable-zmq --enable-glibc-back-compat --enable-reduce-exports CPPFLAGS=-DDEBUG_LOCKORDER" PYZMQ=true
 # No wallet
 #    - HOST=x86_64-unknown-linux-gnu PACKAGES="python3" DEP_OPTS="NO_WALLET=1" RUN_TESTS=true GOAL="install" BITCOIN_CONFIG="--enable-glibc-back-compat --enable-reduce-exports"
@@ -59,8 +59,8 @@ script:
     - depends/$HOST/native/bin/ccache --max-size=$CCACHE_SIZE
     - test -n "$USE_SHELL" && eval '"$USE_SHELL" -c "./autogen.sh"' || ./autogen.sh
     - ./configure --cache-file=config.cache $BITCOIN_CONFIG_ALL $BITCOIN_CONFIG || ( cat config.log && false)
-    - make distdir PACKAGE=phore VERSION=$HOST
-    - cd phore-$HOST
+    - make distdir PACKAGE=elecash VERSION=$HOST
+    - cd elecash-$HOST
     - ./configure --cache-file=../config.cache $BITCOIN_CONFIG_ALL $BITCOIN_CONFIG || ( cat config.log && false)
     - make $MAKEJOBS $GOAL || ( echo "Build failure. Verbose build follows." && make $GOAL V=1 ; false )
     - export LD_LIBRARY_PATH=$TRAVIS_BUILD_DIR/depends/$HOST/lib
@@ -68,6 +68,16 @@ script:
 after_script:
     - echo $TRAVIS_COMMIT_RANGE
     - echo $TRAVIS_COMMIT_LOG
+deploy:
+  provider: releases
+  api_key:
+    secure: "DDTKQgF121NJO99xa2lxHDcyOiGejfxO1F+nzh/jLm0D/mLZ7P/6FCfszcqOv0p1XEe5DyPc6hX2wRJBUHgW8Q3GYvmf2TPJ0cmJVxbMBk8+qG85JuJJwP6mQbHkwmAlksl98lN8XOV0RCuPBwP8chYg9fPx+/G+NEkCE9pK1vpf3f6RMwZJTsjuirZ7Z/ZpDOEneA6kJtCD7dlJKPacajVPTVk/UoyM9H2hoKgJmFdzmVoPgyFdMCecGhFjCiORnbeuNAubUw/tJ5vceSL7fF+tAYBiE+GaY9AH7tqtG3OoUkeElr0kkNj9ShyWMRmToNCskVFu4ygOM8WVgBLcBHx20iYsmk2IOGorc/rAbF2mm97iIbZbR/+Be+gG6MmmqwCeHMHG/GlTR8eV8X+x2dpFRpl4zRo0K+1akqAq31o9njBd5u5J/oCEO7ou42t6eluKJoKhaK0He3liGJIn//c2InD+2sHwUatrql/VGTTD9+V31u+Of+mSgswdRUTLipi+zQPabtZWPcruBmEJj3plINaRe4CEcJOw2El7faEVZuSLN5GETdB2cIES50SCwhKxgTLWz5lGNUAwgcgAFHa0suN4RHvkw7aOK6VwoNQFQHlreGDbiHV+438WZx0cwJPXL6QZMCwIrRTZdrdyxvRzK49DXtquhfsgTs9ovf0="
+  file: "$TRAVIS_BUILD_DIR/dist/**/*.{tar.gz,zip}"
+  skip_cleanup: true
+  on:
+    tags: true
+    all_branches: true
+    condition: "$TRAVIS_TAG =~ ^v[0-9].*$"
 notifications:
   slack:
-    secure: w22XjHoG/3xplxWzddS9Ma7i99Q/hq4FA3Q56xS+RtO2vlFgDT+eDzCppstdx96mn2/4e+/V1aiQ4E6GVEvJMeldqSUhPv9OBnKR0KJVAOwu4haNXt+0ZeQFt8lIndKB5cMVyOJkoq6peGoHNXslClM0lGuBn7g7VC2QPQYNWrJNrrGL7IiVb6fNOIKHWcC4URkzSvXAhO/WIqSSlmKxAAx0B2oEsM8LhdAbcjbp7Sm7zH87TIVGBZ7iTVuMc6B9+SfClbE8bBuRtvjTX57Q4UUZzn0zDtKdPdCte0oXdaQF4RdVim9mDodBGIpDo+avW4WL7EE+AK33fs94pwH5bu0LEandR/aeEvVpbSpQ2XsEKSe+6woizgl5i4GXFVZduJF62y/o1f+S/zC3qW9lIEEpiZc4PpX7pDy30X3p6S5nMrW7T/zNh+SjLhS1VP6XKdQtpD3WRCY4GKZYammZhk5RbOy3jTXAahIXuttWdhl/Q3Rb5VqfFJWlrG/qQXt73qOk2/DgJnABxXE6gnWO4MpHAq+kdomNR+nod4HeXI3DOk1wRuQRVoW1rSjiqQd6Db+TP56RKYgt4M4csOD0DG9G+W0AOtZkuKHTeoEtmQfkKFPZLYAQumv41cDN2UE9gKIECmvJSevj4sMCDTWtozKWqay/W4n2+cmhbzmGflY=
+    secure: "X+Fo9NhIh0+fywa5tj4u9LT7kbBhKoDHcOsVqECxZjjHRuuiazj3TyKQUD9IzeTgYN7Kn3qBdcjJ4Rw7uFMqZurTykKpxsTHhvcqu5m4DMd/PxkamIBiQiyQCD6tAGYz1kcJUgXVBP7LuVwC2/oCGreqcXdo37vbD6Xy3G+DX5W8Q6cSqVMg8ERguCab+Zi1OyA/BSOgKMm0PehzUbKbTJ/zSNosyzIP+Sfc/YM3r3xWreqh7SlNKmZYZqOdZTkyoHE4uDbyLCL+sSDQjxpvAl/KqfgHYS9TMop5blSvqfsqzJiaNm6P5J6j3ElQFoLhFEm4/NZ937jQ9tXMRIX7t5g1qmM9R7FlZd0aXQJDVAgGj9R0Hvx28YVf2gDQJ9Z/cAXiiBNhRpR1Qu2YXQtITBtgxWFWs3O4XMwljlhTQID62+yxG5T/tqHUNyLaTh6+PvrJ3VdrHIxqQ7dfVUDWoEEX1UuMSo7arYW+ddSzfliqWPxfDvZSdTfVWG8Xf0bDQdV4ucsEfM0ro6KVFhG5meBAR8Hj5ISG5y7tQsMaX68BXqvLoRsgO2v2Wnp3BxKwmQjelyVTqMcQG6vftZ3Plf1e1Dsox+oL1S9UT/v5m9rnOIJlOVGoVZMb9QIEOfhExhJSqj4ECDwhvGxtr2QHxqAM58amlb6PJZ/JGtcYrmw="
