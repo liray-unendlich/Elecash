@@ -30,7 +30,7 @@ env:
 #    --enable-reduce-exports LDFLAGS=-static-libstdc++" USE_SHELL="/bin/dash" PYZMQ=true
   - HOST=x86_64-w64-mingw32 DPKG_ADD_ARCH="i386" PACKAGES="python3 nsis g++-mingw-w64-x86-64
     wine1.6 bc" RUN_TESTS=true GOAL="install" BITCOIN_CONFIG="--enable-reduce-exports"
-  - HOST=x86_64-unknown-linux-gnu PACKAGES="bc python3-zmq" DEP_OPTS="NO_QT=1 NO_UPNP=1
+  - HOST=x86_64-unknown-linux-gnu PACKAGES="bc python3-zmq" DEP_OPTS="NO_UPNP=1
     DEBUG=1" RUN_TESTS=true GOAL="install" BITCOIN_CONFIG="--enable-zmq --enable-glibc-back-compat
     --enable-reduce-exports CPPFLAGS=-DDEBUG_LOCKORDER" PYZMQ=true
 #  - HOST=x86_64-apple-darwin11 PACKAGES="cmake imagemagick libcap-dev librsvg2-bin
@@ -97,7 +97,7 @@ deploy:
   on:
     tags: true
     all_branches: true
-    repo: liray-unendlich/Elecas
+    repo: liray-unendlich/Elecash
 notifications:
   slack:
     secure: X+Fo9NhIh0+fywa5tj4u9LT7kbBhKoDHcOsVqECxZjjHRuuiazj3TyKQUD9IzeTgYN7Kn3qBdcjJ4Rw7uFMqZurTykKpxsTHhvcqu5m4DMd/PxkamIBiQiyQCD6tAGYz1kcJUgXVBP7LuVwC2/oCGreqcXdo37vbD6Xy3G+DX5W8Q6cSqVMg8ERguCab+Zi1OyA/BSOgKMm0PehzUbKbTJ/zSNosyzIP+Sfc/YM3r3xWreqh7SlNKmZYZqOdZTkyoHE4uDbyLCL+sSDQjxpvAl/KqfgHYS9TMop5blSvqfsqzJiaNm6P5J6j3ElQFoLhFEm4/NZ937jQ9tXMRIX7t5g1qmM9R7FlZd0aXQJDVAgGj9R0Hvx28YVf2gDQJ9Z/cAXiiBNhRpR1Qu2YXQtITBtgxWFWs3O4XMwljlhTQID62+yxG5T/tqHUNyLaTh6+PvrJ3VdrHIxqQ7dfVUDWoEEX1UuMSo7arYW+ddSzfliqWPxfDvZSdTfVWG8Xf0bDQdV4ucsEfM0ro6KVFhG5meBAR8Hj5ISG5y7tQsMaX68BXqvLoRsgO2v2Wnp3BxKwmQjelyVTqMcQG6vftZ3Plf1e1Dsox+oL1S9UT/v5m9rnOIJlOVGoVZMb9QIEOfhExhJSqj4ECDwhvGxtr2QHxqAM58amlb6PJZ/JGtcYrmw=
