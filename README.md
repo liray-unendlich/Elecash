@@ -26,8 +26,8 @@ Since then, the Elecash repository has been rebaselined to show the fork relatio
 <table>
 <th>Block Height</th><th>Reward</th><th>Miners</th><th>Stakers</th><th>Masternode</th><th>Governance</th>
 <tr><td><= 9,999</td><td>150 ELC</td><td>50 ELC</td><td>75 ELC</td><td>25 ELC</td><td>0 ELC</td></tr>
-<tr><td>10,000-43,199</td><td>150 ELC</td><td>0 ELC</td><td>100 ELC</td><td>50 ELC</td><td>0 ELC</td></tr>
-<tr><td>43,200-129,600</td><td>140 ELC</td><td>0 ELC</td><td>100 ELC</td><td>40 ELC</td><td>0 ELC</td></tr>
+<tr><td>10,000-43,200</td><td>150 ELC</td><td>0 ELC</td><td>100 ELC</td><td>50 ELC</td><td>0 ELC</td></tr>
+<tr><td>43,201-129,600</td><td>140 ELC</td><td>0 ELC</td><td>100 ELC</td><td>40 ELC</td><td>0 ELC</td></tr>
 <tr><td>129,601-345,600</td><td>130 ELC</td><td>0 ELC</td><td>85 ELC</td><td>35 ELC</td><td>10 ELC</td></tr>
 <tr><td>345,601-475,200</td><td>120 ELC</td><td>0 ELC</td><td>75 ELC</td><td>35 ELC</td><td>10 ELC</td></tr>
 <tr><td>475,201-993,600</td><td>110 ELC</td><td>0 ELC</td><td>70 ELC</td><td>30 ELC</td><td>10 ELC</td></tr>
