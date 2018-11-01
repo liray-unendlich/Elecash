@@ -85,7 +85,7 @@ after_script:
 - echo $TRAVIS_COMMIT_RANGE
 - echo $TRAVIS_COMMIT_LOG
 - echo $TRAVIS_BUILD_DIR
-- zip "elecash-"$HOST -r /usr/bin/install
+- zip "`elecash-`$HOST -r /usr/bin/install"
 deploy:
   provider: releases
   api_key:
