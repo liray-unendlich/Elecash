@@ -93,7 +93,6 @@ deploy:
   file:
     - src/qt/elecash-qt
     - src/qt/elecash-qt.exe
-    - "elecash-"$HOST.zip
   skip_cleanup: true
   on:
     tags: true
