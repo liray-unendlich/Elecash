@@ -7,12 +7,12 @@ reset-files.bash
 *.tar.gz
 
 *.exe
-src/phore
-src/phored
-src/phore-cli
-src/phore-tx
-src/test/test_phore
-src/qt/test/test_phore-qt
+src/elecash
+src/elecashd
+src/elecash-cli
+src/elecash-tx
+src/test/test_elecash
+src/qt/test/test_elecash-qt
 
 # autoreconf
 Makefile.in
@@ -38,8 +38,8 @@ confdefs.h
 conftest.cpp
 conftest.err
 libtool
-src/config/phore-config.h
-src/config/phore-config.h.in
+src/config/elecash-config.h
+src/config/elecash-config.h.in
 src/config/stamp-h1
 share/setup.nsi
 share/qt/Info.plist
@@ -64,7 +64,7 @@ src/leveldb/build_config.mk
 *.pyc
 *.o
 *.o-*
-.phore
+.elecash
 *.a
 *.pb.cc
 *.pb.h
@@ -84,12 +84,12 @@ src/leveldb/build_config.mk
 # Compilation and Qt preprocessor part
 *.qm
 Makefile
-phore-qt
-phore-Qt.app
+elecash-qt
+elecash-Qt.app
 
 # Unit-tests
 Makefile.test
-phore-qt_test
+elecash-qt_test
 src/test/buildenv.py
 
 # Resources cpp
@@ -105,7 +105,7 @@ build
 #lcov
 *.gcno
 /*.info
-test_phore.coverage/
+test_elecash.coverage/
 total.coverage/
 coverage_percent.txt
 
