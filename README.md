@@ -1,7 +1,7 @@
 Elecash Core integration/staging repository
 =====================================
 
-[![Build Status](https://travis-ci.org/liray-unendlich/Elecash.svg?branch=master)](https://travis-ci.org/liray-unendlich/Elecash)
+[![Build Status](https://travis-ci.com/liray-unendlich/Elecash.svg?branch=master)](https://travis-ci.org/liray-unendlich/Elecash)
 
 Elecash is a cutting edge cryptocurrency, with many features not available in most other cryptocurrencies.
 - Anonymized transactions using zerocoin technology
