@@ -28,9 +28,9 @@ Since then, the Elecash repository has been rebaselined to show the fork relatio
 <tr><td><= 9,999</td><td>150 ELC</td><td>50 ELC</td><td>75 ELC</td><td>25 ELC</td><td>0 ELC</td></tr>
 <tr><td>10,000-43,199</td><td>150 ELC</td><td>0 ELC</td><td>100 ELC</td><td>50 ELC</td><td>0 ELC</td></tr>
 <tr><td>43,200-129,600</td><td>140 ELC</td><td>0 ELC</td><td>100 ELC</td><td>40 ELC</td><td>0 ELC</td></tr>
-<tr><td>129,601-216,000</td><td>130 ELC</td><td>0 ELC</td><td>85 ELC</td><td>35 ELC</td><td>10 ELC</td></tr>
-<tr><td>216,001-345,600</td><td>120 ELC</td><td>0 ELC</td><td>75 ELC</td><td>35 ELC</td><td>10 ELC</td></tr>
-<tr><td>345,601-475,200</td><td>110 ELC</td><td>0 ELC</td><td>70 ELC</td><td>30 ELC</td><td>10 ELC</td></tr>
+<tr><td>129,601-345,600</td><td>130 ELC</td><td>0 ELC</td><td>85 ELC</td><td>35 ELC</td><td>10 ELC</td></tr>
+<tr><td>345,601-475,200</td><td>120 ELC</td><td>0 ELC</td><td>75 ELC</td><td>35 ELC</td><td>10 ELC</td></tr>
+<tr><td>475,201-993,600</td><td>110 ELC</td><td>0 ELC</td><td>70 ELC</td><td>30 ELC</td><td>10 ELC</td></tr>
 <tr><td>993,601-1,512,000</td><td>105 ELC</td><td>0 ELC</td><td>65 ELC</td><td>30 ELC</td><td>10 ELC</td></tr>
 <tr><td>1,512,001-2,030,400</td><td>95 ELC</td><td>0 ELC</td><td>60 ELC</td><td>30 ELC</td><td>5 ELC</td></tr>
 <tr><td>2,030,401-2,548,800</td><td>90 ELC</td><td>0 ELC</td><td>55 ELC</td><td>30 ELC</td><td>5 ELC</td></tr>
