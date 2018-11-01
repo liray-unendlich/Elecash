@@ -85,12 +85,12 @@ after_script:
 - echo $TRAVIS_COMMIT_RANGE
 - echo $TRAVIS_COMMIT_LOG
 - echo $TRAVIS_BUILD_DIR
-- zip "`elecash-`$HOST -r /usr/bin/install"
+- zip "elecash-"$HOST -r /usr/bin/install
 deploy:
   provider: releases
   api_key:
     secure: Cr64/oHtS/Mt1ib4zQC5zrZLcj5/OHrUmKlOyoP2sVLQbNIWqxTc4eilTUEiXmTJ1bYi3vfQ49a3Eglb/1Li94DFgrmoHfeo65vJo+FGvUJNJ3yernvci9oWShS7VyzV0CGWRh+pqT9inHDTQSPm4IXDROi79g7ZQWNVSIq0MgR3ysgCPnXEm7zZ7/C3hx62ZtdIeP1+b+GtENjCQkRGBweh0wYYfUpNWhciQoN6cf+ZuGETGeKDlT728aWu/Hpat/1D0y4Zdqztog+n/Wx+gjeX0bvrYHwBTCYu75CgCg9RUYfKARUTXVhnMF+X6DcjOQ/H12XyMbX+y8DopdKwQ5wh7eGz7zEYIQpPsECLEY3oRH9XR1eHZwO9f5sVAENtCGlkgX6R56YOneuImdkwSHO+y8TEehpwVBgGKdNDGxL/xDWprk1xCup2175eHXhUd4WT2cvHgErxfhe/DIVoPZ8wYRLRYZ8NcBZg6rkojq9nPA+sXnLS58Ivhkc5a77lapD/g15ijIFJTzvwpOSO5VPMijZBrnBKtiBlEQwqpRGsVC443rOdOg7kcz+B1I1vLJnSCkO1yHUZ7ZlufAnxTqehlMdrPV6Qs9f5X/eEZim+t47L8E7w0q8h64VQCPLUZJJgbnytP0g8lDBdZ1dTL9jub1ivrBABpsIhRbuCs6Q=
-  file: "elecash-"$HOST.zip
+  file: "/usr/bin/install/elecash*"
   skip_cleanup: true
   on:
     tags: true
