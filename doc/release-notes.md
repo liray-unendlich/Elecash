@@ -1,13 +1,13 @@
 Elecash Core version 3.0.4 is now available from:
 
-  <https://github.com/elecashproject/elecash/releases>
+  <https://github.com/liray-unendlich/elecash/releases>
 
 This is a new minor-revision version release, including various bug fixes and
 performance improvements, as well as updated translations.
 
 Please report bugs using the issue tracker at github:
 
-  <https://github.com/elecashproject/elecash/issues>
+  <https://github.com/liray-unendlich/elecash/issues>
 
 
 Mandatory Update

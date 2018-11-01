@@ -46,7 +46,7 @@ Instructions: Homebrew
 
 1. Clone the github tree to get the source code and go into the directory.
 
-        git clone https://github.com/elecashproject/Elecash.git
+        git clone https://github.com/liray-unendlich/Elecash.git
         cd Elecash
 
 2.  Build elecashd:
@@ -176,7 +176,7 @@ Next, switch into your Downloads folder:
 
 The next step is to download the current version of the wallet from Github and go into that directory:
 
-```git clone https://github.com/elecashproject/elecash.git```
+```git clone https://github.com/liray-unendlich/elecash.git```
 ```cd Elecash```
 
 Now set some configuration flags:

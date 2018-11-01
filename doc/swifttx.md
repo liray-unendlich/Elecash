@@ -12,8 +12,8 @@ When a "Transaction Lock" occurs the hash of the related transaction is broadcas
 * `zmqpubhashtxlock`: publishes the transaction hash when locked via SwiftX
 
 This mechanism has been integrated into Bitcore-Node-PHore which allows for notification to be broadcast through Insight API in one of two ways:
-* WebSocket: [https://github.com/elecashproject/insight-api-elecash#web-socket-api](https://github.com/elecashproject/insight-api-elecash#web-socket-api) 
-* API: [https://github.com/elecashproject/insight-api-elecash#swifttx-transactions](https://github.com/elecashproject/insight-api-elecash#swifttx-transactions) 
+* WebSocket: [https://github.com/liray-unendlich/insight-api-elecash#web-socket-api](https://github.com/liray-unendlich/insight-api-elecash#web-socket-api) 
+* API: [https://github.com/liray-unendlich/insight-api-elecash#swifttx-transactions](https://github.com/liray-unendlich/insight-api-elecash#swifttx-transactions) 
 
 ####Command line option
 

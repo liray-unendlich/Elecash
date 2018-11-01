@@ -42,7 +42,7 @@ The following are developer notes on how to build Elecash on your native platfor
 
 Development
 ---------------------
-The Elecash repo's [root README](https://github.com/elecashproject/Elecash/blob/master/README.md) contains relevant information on the development process and automated testing.
+The Elecash repo's [root README](https://github.com/liray-unendlich/Elecash/blob/master/README.md) contains relevant information on the development process and automated testing.
 
 - [Developer Notes](developer-notes.md)
 - [Multiwallet Qt Development](multiwallet-qt.md)
