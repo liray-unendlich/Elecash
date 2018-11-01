@@ -54,7 +54,7 @@ static void convertSeed6(std::vector<CAddress>& vSeedsOut, const SeedSpec6* data
 // + Contains no strange transactions
 static Checkpoints::MapCheckpoints mapCheckpoints =
     boost::assign::map_list_of
-    (     0, uint256("0x"));
+    (     0, uint256("0x00000b4fd1bd5b14848b0de556701b063309aa9c1acaa7599bfa62a8e0042e3f"));
 
 static const Checkpoints::CCheckpointData data = {
     &mapCheckpoints,
@@ -161,14 +161,14 @@ public:
         genesis.hashMerkleRoot = genesis.BuildMerkleTree();
         genesis.nVersion = 1;
         genesis.nTime = 1541043852;
-        genesis.nBits = 0x207fffff;
-        genesis.nNonce = 12345;
+        genesis.nBits = 0x1e0ffff0;
+        genesis.nNonce = 6169152;
 
         hashGenesisBlock = genesis.GetHash();
-        assert(hashGenesisBlock == uint256("0x"));
-        assert(genesis.hashMerkleRoot == uint256("0x"));
+        assert(hashGenesisBlock == uint256("0x00000b4fd1bd5b14848b0de556701b063309aa9c1acaa7599bfa62a8e0042e3f"));
+        assert(genesis.hashMerkleRoot == uint256("0xe44a0c58bacb9a0d7793b4cf22ef391019a9677b30b518e2bc87cca38361e049"));
 
-        vSeeds.push_back(CDNSSeedData("0", "dns0.elecash.io")); // Primary DNS Seeder
+        vSeeds.push_back(CDNSSeedData("108.61.181.99", "108.61.181.99")); // Primary DNS Seeder
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1, 33); // elecash address should start with "E"
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1, 12); // elecash script address should start with "5 or 6"
