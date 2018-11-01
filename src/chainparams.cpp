@@ -58,28 +58,28 @@ static Checkpoints::MapCheckpoints mapCheckpoints =
 
 static const Checkpoints::CCheckpointData data = {
     &mapCheckpoints,
-//    1532555998, // * UNIX timestamp of last checkpoint block
-//    943282,     // * total number of transactions between genesis and last checkpoint
-//                //   (the tx=... number in the SetBestChain debug.log lines)
-//    1500        // * estimated number of transactions per day after checkpoint
+    1541080746, // * UNIX timestamp of last checkpoint block
+    0,     // * total number of transactions between genesis and last checkpoint
+                //   (the tx=... number in the SetBestChain debug.log lines)
+    1500        // * estimated number of transactions per day after checkpoint
 };
 
 static Checkpoints::MapCheckpoints mapCheckpointsTestnet =
-    boost::assign::map_list_of(0, uint256("0x"));
+    boost::assign::map_list_of(0, uint256("0x00000db01115f7febe8d2fad16f12367860113cd5eb4be42270c59d59498105d"));
 static const Checkpoints::CCheckpointData dataTestnet = {
     &mapCheckpointsTestnet,
-//    1504595227,
-//    0,
-//    250
+    1541043500,
+    0,
+    250
 };
 
 static Checkpoints::MapCheckpoints mapCheckpointsRegtest =
-    boost::assign::map_list_of(0, uint256("0x"));
+    boost::assign::map_list_of(0, uint256("0x08afe8ae46cc3a77cdecb459471539e57285e84e48c8d7f96f8e2be4e59d6dba"));
 static const Checkpoints::CCheckpointData dataRegtest = {
     &mapCheckpointsRegtest,
-//    1504595227,
-//    0,
-//    100
+    1541043500,
+    0,
+    100
 };
 
 libzerocoin::ZerocoinParams* CChainParams::Zerocoin_Params() const
@@ -160,13 +160,45 @@ public:
         genesis.hashPrevBlock = 0;
         genesis.hashMerkleRoot = genesis.BuildMerkleTree();
         genesis.nVersion = 1;
-        genesis.nTime = 1541043852;
+        genesis.nTime = 1541080746;
         genesis.nBits = 0x1e0ffff0;
-        genesis.nNonce = 6169152;
+        genesis.nNonce = 996744;
 
         hashGenesisBlock = genesis.GetHash();
-        assert(hashGenesisBlock == uint256("0x00000b4fd1bd5b14848b0de556701b063309aa9c1acaa7599bfa62a8e0042e3f"));
-        assert(genesis.hashMerkleRoot == uint256("0xe44a0c58bacb9a0d7793b4cf22ef391019a9677b30b518e2bc87cca38361e049"));
+        /*
+        Make genesis hash - from stakecoin
+
+        if (true && genesis.GetHash() != hashGenesisBlock)
+        {
+                printf("Searching for genesis block...\n");
+                uint256 hashTarget = CBigNum().SetCompact(genesis.nBits).getuint256();
+                uint256 thash;
+
+                while (true)
+                {
+                        thash = genesis.GetHash();
+                        if (thash <= hashTarget)
+                                break;
+                        if ((genesis.nNonce & 0xFFF) == 0)
+                        {
+                                printf("nonce %08X: hash = %s (target = %s)\n", genesis.nNonce, thash.ToString().c_str(), hashTarget.ToString().c_str());
+                        }
+                        ++genesis.nNonce;
+                        if (genesis.nNonce == 0)
+                        {
+                                printf("NONCE WRAPPED, incrementing time\n");
+                                ++genesis.nTime;
+                        }
+                }
+                printf("genesis.nTime = %u \n", genesis.nTime);
+                printf("genesis.nNonce = %u \n", genesis.nNonce);
+                printf("genesis.nVersion = %u \n", genesis.nVersion);
+                printf("genesis.GetHash = %s\n", genesis.GetHash().ToString().c_str());                    //first this, then comment this line out and uncomment the one under.
+                printf("genesis.hashMerkleRoot = %s \n", genesis.hashMerkleRoot.ToString().c_str());                    //improvised. worked for me, to find merkle root
+        }
+         */
+        assert(hashGenesisBlock == uint256("0x00000109c71689651b3cc53803072f9c2a24962b1179394956dd0daed4c05307"));
+        assert(genesis.hashMerkleRoot == uint256("0xab34b2ea90d7a024a53fe792714592e23cddb949a770fb4029ebf8edd0ec5103"));
 
         vSeeds.push_back(CDNSSeedData("108.61.181.99", "108.61.181.99")); // Primary DNS Seeder
 
@@ -254,11 +286,12 @@ public:
         nZerocoinLastOldParams = 50000;
 
         //! Modify the testnet genesis block so the timestamp is valid for a later start.
-        genesis.nTime = 1541043852;
-        genesis.nNonce = 12346;
+        genesis.nTime = 1541043500;
+        genesis.nNonce = 1849590;
+        genesis.nVersion = 1;
 
         hashGenesisBlock = genesis.GetHash();
-        assert(hashGenesisBlock == uint256("0x"));
+        assert(hashGenesisBlock == uint256("0x00000db01115f7febe8d2fad16f12367860113cd5eb4be42270c59d59498105d"));
 
         vFixedSeeds.clear();
         vSeeds.clear();
@@ -319,9 +352,10 @@ public:
         nTargetTimespan = 24 * 60 * 60; // Elecash: 1 day
         nTargetSpacing = 1 * 60;        // Elecash: 1 minutes
         bnProofOfWorkLimit = ~uint256(0) >> 1;
-        genesis.nTime = 1505224800;
-        genesis.nBits = 0x207fffff;
-        genesis.nNonce = 12345;
+        genesis.nTime = 1541043500;
+        genesis.nBits = 0x200fffff;
+        genesis.nNonce = 1829663;
+        genesis.nVersion = 1;
         nMaturity = 0;
         nLastPOWBlock = 999999999; // PoS complicates Regtest because of timing issues
         nZerocoinLastOldParams = 499;
@@ -329,9 +363,9 @@ public:
 
         hashGenesisBlock = genesis.GetHash();
         nDefaultPort = 18883;
-        assert(hashGenesisBlock == uint256("0x2b1a0f66712aad59ad283662d5b919415a25921ce89511d73019107e380485bf"));
+        assert(hashGenesisBlock == uint256("0x08afe8ae46cc3a77cdecb459471539e57285e84e48c8d7f96f8e2be4e59d6dba"));
 
-        bech32_hrp = "elct";
+        bech32_hrp = "eLt";
 
         vFixedSeeds.clear(); //! Testnet mode doesn't have any fixed seeds.
         vSeeds.clear();      //! Testnet mode doesn't have any DNS seeds.
