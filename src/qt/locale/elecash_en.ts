@@ -145,7 +145,7 @@
 <context>
     <name>AskPasselcaseDialog</name>
     <message>
-        <location filename="../forms/askpasselcasedialog.ui" line="+26"/>
+        <location filename="../forms/askpassphrasedialog.ui" line="+26"/>
         <source>Passelcase Dialog</source>
         <translation>Passelcase Dialog</translation>
     </message>
@@ -175,7 +175,7 @@
         <translation>For anonymization and staking only</translation>
     </message>
     <message>
-        <location filename="../askpasselcasedialog.cpp" line="+44"/>
+        <location filename="../askpassphrasedialog.cpp" line="+44"/>
         <source>Enter the new passelcase to the wallet.&lt;br/&gt;Please use a passelcase of &lt;b&gt;ten or more random characters&lt;/b&gt;, or &lt;b&gt;eight or more words&lt;/b&gt;.</source>
         <translation>Enter the new passelcase to the wallet.&lt;br/&gt;Please use a passelcase of &lt;b&gt;ten or more random characters&lt;/b&gt;, or &lt;b&gt;eight or more words&lt;/b&gt;.</translation>
     </message>

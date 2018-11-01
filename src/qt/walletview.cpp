@@ -5,7 +5,7 @@
 #include "walletview.h"
 
 #include "addressbookpage.h"
-#include "askpasselcasedialog.h"
+#include "askpassphrasedialog.h"
 #include "bip38tooldialog.h"
 #include "bitcoingui.h"
 #include "blockexplorer.h"

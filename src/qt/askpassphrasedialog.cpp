@@ -4,8 +4,8 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "askpasselcasedialog.h"
-#include "ui_askpasselcasedialog.h"
+#include "askpassphrasedialog.h"
+#include "ui_askpassphrasedialog.h"
 
 #include "guiconstants.h"
 #include "guiutil.h"
