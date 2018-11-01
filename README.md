@@ -10,32 +10,31 @@ Elecash is a cutting edge cryptocurrency, with many features not available in mo
   with collateral of 10K ELC
 - Decentralized blockchain voting utilizing Masternode technology to form a DAO. The blockchain will distribute monthly treasury funds based on successful proposals submitted by the community and voted on by the DAO.
 
-17.6M elecash was produced for swapping. 500k were mined 1-200 blocks to bring that amount to 18.1M ELC, the amount needed for the swap.
+10M ELC were mined 1-20000 blocks.
 
 Since then, the Elecash repository has been rebaselined to show the fork relationship properly.
-
-## BCT Thread ##
-
-https://bitcointalk.org/index.php?topic=2307909.0
-
-Rebrand from KryptKoin [KTK] to Elecash [ELC]
 
 ## Coin Specs ##
 <table>
 <tr><td>Algo</td><td>Quark</td></tr>
 <tr><td>Block Time</td><td>60 Seconds</td></tr>
 <tr><td>Difficulty Retargeting</td><td>Every Block</td></tr>
-<tr><td>Max Coin Supply (PoS Phase)</td><td>Infinite</td></tr>
+<tr><td>Max Coin Supply (PoS Phase)</td><td>265,000,000</td></tr>
 </table>
 
 ## PoS Rewards Breakdown ##
-
 <table>
-<th>Block Height</th><th>Reward</th><th>Masternodes</th><th>Stakers</th>
-<tr><td><= 755,600</td><td>7.7 ELC</td><td>4.2 ELC</td><td>2.8 ELC</td></tr>
-<tr><td>755,601-1,043,999</td><td>5 ELC</td><td>2.7 ELC</td><td>1.8 ELC</td></tr>
-<tr><td>1,044,000-1,562,398</td><td>4 ELC</td><td>2.16 ELC</td><td>1.44 ELC</td></tr>
-<tr><td>> 1,562,399</td><td>3 ELC</td><td>1.62 ELC</td><td>1.08 ELC</td></tr>
+<th>Block Height</th><th>Reward</th><th>Miners</th><th>Stakers</th><th>Masternode</th><th>Governance</th>
+<tr><td><= 9,999</td><td>150 ELC</td><td>50 ELC</td><td>75 ELC</td><td>25 ELC</td><td>0 ELC</td></tr>
+<tr><td>10,000-43,199</td><td>150 ELC</td><td>0 ELC</td><td>100 ELC</td><td>50 ELC</td><td>0 ELC</td></tr>
+<tr><td>43,200-129,599</td><td>140 ELC</td><td>0 ELC</td><td>100 ELC</td><td>40 ELC</td><td>0 ELC</td></tr>
+<tr><td>129,600-215,999</td><td>130 ELC</td><td>0 ELC</td><td>85 ELC</td><td>35 ELC</td><td>10 ELC</td></tr>
+<tr><td>216,000-345,599</td><td>120 ELC</td><td>0 ELC</td><td>75 ELC</td><td>35 ELC</td><td>10 ELC</td></tr>
+<tr><td>129,600-215,999</td><td>110 ELC</td><td>0 ELC</td><td>70 ELC</td><td>30 ELC</td><td>10 ELC</td></tr>
+<tr><td>129,600-215,999</td><td>105 ELC</td><td>0 ELC</td><td>65 ELC</td><td>30 ELC</td><td>10 ELC</td></tr>
+<tr><td>129,600-215,999</td><td>95 ELC</td><td>0 ELC</td><td>60 ELC</td><td>30 ELC</td><td>5 ELC</td></tr>
+<tr><td>129,600-215,999</td><td>90 ELC</td><td>0 ELC</td><td>55 ELC</td><td>30 ELC</td><td>5 ELC</td></tr>
+<tr><td>129,600-215,999</td><td>80 ELC</td><td>0 ELC</td><td>50 ELC</td><td>25 ELC</td><td>5 ELC</td></tr>
 </table>
 
-The Elecash development budget is up to a maximum of 1 ELC per block, paid out based on approved proposals as voted on by the Elecash masternode owners through the community governance process.
+Governance means "Elecash development budget", paid out based on approved proposals as voted on by the Elecash masternode owners through the community governance process.
