@@ -1,0 +1,30 @@
+<!DOCTYPE RCC><RCC version="1.0">
+    <qresource prefix="/translations">
+        <file alias="bg">locale/elecash_bg.qm</file>
+        <file alias="ca">locale/elecash_ca.qm</file>
+        <file alias="cs">locale/elecash_cs.qm</file>
+        <file alias="da">locale/elecash_da.qm</file>
+        <file alias="de">locale/elecash_de.qm</file>
+        <file alias="en">locale/elecash_en.qm</file>
+        <file alias="en_US">locale/elecash_en_US.qm</file>
+        <file alias="es">locale/elecash_es.qm</file>
+        <file alias="fi">locale/elecash_fi.qm</file>
+        <file alias="fr_FR">locale/elecash_fr_FR.qm</file>
+        <file alias="hr">locale/elecash_hr.qm</file>
+        <file alias="it">locale/elecash_it.qm</file>
+        <file alias="ja">locale/elecash_ja.qm</file>
+        <file alias="ko_KR">locale/elecash_ko_KR.qm</file>
+        <file alias="nl">locale/elecash_nl.qm</file>
+        <file alias="pl">locale/elecash_pl.qm</file>
+        <file alias="pt">locale/elecash_pt.qm</file>
+        <file alias="pt_BR">locale/elecash_pt_BR.qm</file>
+        <file alias="ro_RO">locale/elecash_ro_RO.qm</file>
+        <file alias="ru">locale/elecash_ru.qm</file>
+        <file alias="sk">locale/elecash_sk.qm</file>
+        <file alias="sv">locale/elecash_sv.qm</file>
+        <file alias="tr">locale/elecash_tr.qm</file>
+        <file alias="uk">locale/elecash_uk.qm</file>
+        <file alias="zh_CN">locale/elecash_zh_CN.qm</file>
+        <file alias="zh_TW">locale/elecash_zh_TW.qm</file>
+    </qresource>
+</RCC>

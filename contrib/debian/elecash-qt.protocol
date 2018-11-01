@@ -1,0 +1,11 @@
+[Protocol]
+exec=elecash-qt '%u'
+protocol=elecash
+input=none
+output=none
+helper=true
+listing=
+reading=false
+writing=false
+makedir=false
+deleting=false

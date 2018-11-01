@@ -1,0 +1,12 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Elecash
+Comment=Elecash P2P Cryptocurrency
+Comment[fr]=Elecash, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=Elecash, eşten eşe kriptografik sanal para birimi
+Exec=elecash-qt %u
+Terminal=false
+Type=Application
+Icon=elecash128
+MimeType=x-scheme-handler/elecash;
+Categories=Office;Finance;

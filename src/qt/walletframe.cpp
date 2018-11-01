@@ -211,11 +211,11 @@ void WalletFrame::backupWallet()
         walletView->backupWallet();
 }
 
-void WalletFrame::changePassphrase()
+void WalletFrame::changePasselcase()
 {
     WalletView* walletView = currentWalletView();
     if (walletView)
-        walletView->changePassphrase();
+        walletView->changePasselcase();
 }
 
 void WalletFrame::unlockWallet()

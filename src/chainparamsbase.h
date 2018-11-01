@@ -9,8 +9,8 @@
 #include <vector>
 
 /**
- * CBaseChainParams defines the base parameters (shared between phore-cli and phored)
- * of a given instance of the Phore system.
+ * CBaseChainParams defines the base parameters (shared between elecash-cli and elecashd)
+ * of a given instance of the Elecash system.
  */
 class CBaseChainParams
 {

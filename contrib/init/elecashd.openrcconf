@@ -1,0 +1,26 @@
+# /etc/conf.d/elecashd: config file for /etc/init.d/elecashd
+
+# Config file location
+#BITCOIND_CONFIGFILE="/etc/elecash/elecash.conf"
+
+# What directory to write pidfile to?  (created and owned by $BITCOIND_USER)
+#BITCOIND_PIDDIR="/var/run/elecashd"
+
+# What filename to give the pidfile
+#BITCOIND_PIDFILE="${BITCOIND_PIDDIR}/elecashd.pid"
+
+# Where to write elecashd data (be mindful that the blockchain is large)
+#BITCOIND_DATADIR="/var/lib/elecashd"
+
+# User and group to own elecashd process
+#BITCOIND_USER="elecash"
+#BITCOIND_GROUP="elecash"
+
+# Path to elecashd executable
+#BITCOIND_BIN="/usr/bin/elecashd"
+
+# Nice value to run elecashd under
+#BITCOIND_NICE=0
+
+# Additional options (avoid -conf and -datadir, use flags above)
+BITCOIND_OPTS=""
