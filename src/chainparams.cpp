@@ -352,7 +352,7 @@ public:
         nTargetTimespan = 24 * 60 * 60; // Elecash: 1 day
         nTargetSpacing = 1 * 60;        // Elecash: 1 minutes
         bnProofOfWorkLimit = ~uint256(0) >> 1;
-        genesis.nTime = 1541043500;
+        genesis.nTime = 1541043640;
         genesis.nBits = 0x200fffff;
         genesis.nNonce = 1829663;
         genesis.nVersion = 1;
