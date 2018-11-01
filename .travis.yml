@@ -7,9 +7,9 @@ cache:
   - depends/built
   - depends/sdk-sources
   - $HOME/.ccache
-stages:
-  - lint
-  - test
+#stages:
+#  - lint
+#  - test
 env:
   global:
     - MAKEJOBS=-j3
@@ -71,16 +71,16 @@ script:
 after_script:
     - echo $TRAVIS_COMMIT_RANGE
     - echo $TRAVIS_COMMIT_LOG
-deploy:
-  provider: releases
-  api_key:
-    secure: "DDTKQgF121NJO99xa2lxHDcyOiGejfxO1F+nzh/jLm0D/mLZ7P/6FCfszcqOv0p1XEe5DyPc6hX2wRJBUHgW8Q3GYvmf2TPJ0cmJVxbMBk8+qG85JuJJwP6mQbHkwmAlksl98lN8XOV0RCuPBwP8chYg9fPx+/G+NEkCE9pK1vpf3f6RMwZJTsjuirZ7Z/ZpDOEneA6kJtCD7dlJKPacajVPTVk/UoyM9H2hoKgJmFdzmVoPgyFdMCecGhFjCiORnbeuNAubUw/tJ5vceSL7fF+tAYBiE+GaY9AH7tqtG3OoUkeElr0kkNj9ShyWMRmToNCskVFu4ygOM8WVgBLcBHx20iYsmk2IOGorc/rAbF2mm97iIbZbR/+Be+gG6MmmqwCeHMHG/GlTR8eV8X+x2dpFRpl4zRo0K+1akqAq31o9njBd5u5J/oCEO7ou42t6eluKJoKhaK0He3liGJIn//c2InD+2sHwUatrql/VGTTD9+V31u+Of+mSgswdRUTLipi+zQPabtZWPcruBmEJj3plINaRe4CEcJOw2El7faEVZuSLN5GETdB2cIES50SCwhKxgTLWz5lGNUAwgcgAFHa0suN4RHvkw7aOK6VwoNQFQHlreGDbiHV+438WZx0cwJPXL6QZMCwIrRTZdrdyxvRzK49DXtquhfsgTs9ovf0="
-  file: "$TRAVIS_BUILD_DIR/dist/**/*.{tar.gz,zip}"
-  skip_cleanup: true
-  on:
-    tags: true
-    all_branches: true
-    condition: "$TRAVIS_TAG =~ ^v[0-9].*$"
+#deploy:
+#  provider: releases
+#  api_key:
+#    secure: "DDTKQgF121NJO99xa2lxHDcyOiGejfxO1F+nzh/jLm0D/mLZ7P/6FCfszcqOv0p1XEe5DyPc6hX2wRJBUHgW8Q3GYvmf2TPJ0cmJVxbMBk8+qG85JuJJwP6mQbHkwmAlksl98lN8XOV0RCuPBwP8chYg9fPx+/G+NEkCE9pK1vpf3f6RMwZJTsjuirZ7Z/ZpDOEneA6kJtCD7dlJKPacajVPTVk/UoyM9H2hoKgJmFdzmVoPgyFdMCecGhFjCiORnbeuNAubUw/tJ5vceSL7fF+tAYBiE+GaY9AH7tqtG3OoUkeElr0kkNj9ShyWMRmToNCskVFu4ygOM8WVgBLcBHx20iYsmk2IOGorc/rAbF2mm97iIbZbR/+Be+gG6MmmqwCeHMHG/GlTR8eV8X+x2dpFRpl4zRo0K+1akqAq31o9njBd5u5J/oCEO7ou42t6eluKJoKhaK0He3liGJIn//c2InD+2sHwUatrql/VGTTD9+V31u+Of+mSgswdRUTLipi+zQPabtZWPcruBmEJj3plINaRe4CEcJOw2El7faEVZuSLN5GETdB2cIES50SCwhKxgTLWz5lGNUAwgcgAFHa0suN4RHvkw7aOK6VwoNQFQHlreGDbiHV+438WZx0cwJPXL6QZMCwIrRTZdrdyxvRzK49DXtquhfsgTs9ovf0="
+#  file: "$TRAVIS_BUILD_DIR/dist/**/*.{tar.gz,zip}"
+#  skip_cleanup: true
+#  on:
+#    tags: true
+#    all_branches: true
+#    condition: "$TRAVIS_TAG =~ ^v[0-9].*$"
 notifications:
   slack:
     secure: "X+Fo9NhIh0+fywa5tj4u9LT7kbBhKoDHcOsVqECxZjjHRuuiazj3TyKQUD9IzeTgYN7Kn3qBdcjJ4Rw7uFMqZurTykKpxsTHhvcqu5m4DMd/PxkamIBiQiyQCD6tAGYz1kcJUgXVBP7LuVwC2/oCGreqcXdo37vbD6Xy3G+DX5W8Q6cSqVMg8ERguCab+Zi1OyA/BSOgKMm0PehzUbKbTJ/zSNosyzIP+Sfc/YM3r3xWreqh7SlNKmZYZqOdZTkyoHE4uDbyLCL+sSDQjxpvAl/KqfgHYS9TMop5blSvqfsqzJiaNm6P5J6j3ElQFoLhFEm4/NZ937jQ9tXMRIX7t5g1qmM9R7FlZd0aXQJDVAgGj9R0Hvx28YVf2gDQJ9Z/cAXiiBNhRpR1Qu2YXQtITBtgxWFWs3O4XMwljlhTQID62+yxG5T/tqHUNyLaTh6+PvrJ3VdrHIxqQ7dfVUDWoEEX1UuMSo7arYW+ddSzfliqWPxfDvZSdTfVWG8Xf0bDQdV4ucsEfM0ro6KVFhG5meBAR8Hj5ISG5y7tQsMaX68BXqvLoRsgO2v2Wnp3BxKwmQjelyVTqMcQG6vftZ3Plf1e1Dsox+oL1S9UT/v5m9rnOIJlOVGoVZMb9QIEOfhExhJSqj4ECDwhvGxtr2QHxqAM58amlb6PJZ/JGtcYrmw="
