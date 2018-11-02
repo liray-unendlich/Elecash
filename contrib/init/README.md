@@ -1,10 +1,10 @@
 Sample configuration files for:
 
-SystemD: elecashd.service
-Upstart: elecashd.conf
-OpenRC:  elecashd.openrc
-         elecashd.openrcconf
-CentOS:  elecashd.init
+SystemD: phored.service
+Upstart: phored.conf
+OpenRC:  phored.openrc
+         phored.openrcconf
+CentOS:  phored.init
 
 have been made available to assist packagers in creating node packages here.
 

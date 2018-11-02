@@ -14,44 +14,44 @@ The implementation is dependent on the following:
 What's new
 ----------------
 
-The following new options are available for elecashd and elecash-qt:
+The following new options are available for phored and phore-qt:
  - _-keepass_ Use KeePass 2 integration using KeePassHttp plugin (default: 0)
  - _-keepassport=_ Connect to KeePassHttp on port (default: 19455)
  - _-keepasskey=_ KeePassHttp key for AES encrypted communication with KeePass
  - _-keepassid=_ KeePassHttp id for the established association
- - _-keepassname=_ Name to construct url for KeePass entry that stores the wallet passelcase
+ - _-keepassname=_ Name to construct url for KeePass entry that stores the wallet passphrase
 
 The following rpc commands are available:
 
  - _keepass genkey_: generates a base64 encoded 256 bit AES key that can be used for the communication with KeePassHttp. Only necessary for manual configuration. Use init for automatic configuration.
- - _keepass init_: sets up the association between elecashd and keepass by generating an AES key and sending an association message to KeePassHttp. This will trigger KeePass to ask for an Id for the association. Returns the association and the base64 encoded string for the AES key.
- - _keepass setpasselcase_: updates the passelcase in KeePassHttp to a new value. This should match the passelcase you intend to use for the wallet. Please note that the standard RPC commands _walletpasselcasechange_ and the wallet encrption from the QT GUI already send the updates to KeePassHttp, so this is only necessary for manual manipulation of the password.
+ - _keepass init_: sets up the association between phored and keepass by generating an AES key and sending an association message to KeePassHttp. This will trigger KeePass to ask for an Id for the association. Returns the association and the base64 encoded string for the AES key.
+ - _keepass setpassphrase_: updates the passphrase in KeePassHttp to a new value. This should match the passphrase you intend to use for the wallet. Please note that the standard RPC commands _walletpassphrasechange_ and the wallet encrption from the QT GUI already send the updates to KeePassHttp, so this is only necessary for manual manipulation of the password.
 
 How to setup
 ----------------
 
-Sample initialization flow from _elecash-qt_ console (this needs to be done only once to set up the association):
+Sample initialization flow from _phore-qt_ console (this needs to be done only once to set up the association):
 
  - Have KeePass running with an open database
- - Start _elecash-qt_
+ - Start _phore-qt_
  - Open console
- - Type "_keepass init_" in elecash-qt console
+ - Type "_keepass init_" in phore-qt console
  - Keepass pops up and asks for an association id, fill that in, for example, "_mydrkwallet_"
- - You should get a response like this "_Association successful. Id: mydrkwalletelecash - Key: AgQkcs6cI7v9tlSYKjG/+s8wJrGALHl3jLosJpPLzUE=_"
- - Edit _elecash.conf_ and fill in these values
+ - You should get a response like this "_Association successful. Id: mydrkwalletphore - Key: AgQkcs6cI7v9tlSYKjG/+s8wJrGALHl3jLosJpPLzUE=_"
+ - Edit _phore.conf_ and fill in these values
 ```
 keepass=1
 keepasskey=AgQkcs6cI7v9tlSYKjG/+s8wJrGALHl3jLosJpPLzUE=
 keepassid=mydrkwallet
 keepassname=testwallet
 ```
- - Restart _elecash-qt_
+ - Restart _phore-qt_
 
 At this point, the association is made. The next action depends on your particular situation:
 
  - current wallet is not yet encrypted. Encrypting the wallet will trigger the integration and stores the password in KeePass (Under the '_KeePassHttp Passwords_' group, named after _keepassname_.
- - current wallet is already encrypted: use "_keepass setpasselcase_" to store the passelcase in KeePass.
+ - current wallet is already encrypted: use "_keepass setpassphrase_" to store the passphrase in KeePass.
 
-At this point, the passelcase is stored in KeePassHttp. When Unlocking the wallet, one can use _keepass_ as the passelcase to trigger retrieval of the password. This works from the RPC commands as well as the GUI.
+At this point, the passphrase is stored in KeePassHttp. When Unlocking the wallet, one can use _keepass_ as the passphrase to trigger retrieval of the password. This works from the RPC commands as well as the GUI.
 
 Extended guide with screenshots is also available: https://dashtalk.org/threads/keepass-integration.3620/
