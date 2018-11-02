@@ -13,5 +13,5 @@ make HOST=x86_64-w64-mingw32
 cd ..
 ./autogen.sh
 CONFIG_SITE=$PWD/depends/x86_64-w64-mingw32/share/config.site ./configure --disable-tests --prefix=/build-win64
-make
+make -j4
 sudo make install
