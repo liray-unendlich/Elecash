@@ -948,7 +948,7 @@ int GetZerocoinStartHeight()
 }
 
 libzerocoin::ZerocoinParams* GetZerocoinParams(int nHeight) {
-    return nHeight > Params().Zerocoin_LastOldParams() ? Params().Zerocoin_Params() : Params().OldZerocoin_Params(); 
+    return nHeight > Params().Zerocoin_LastOldParams() ? Params().Zerocoin_Params() : Params().OldZerocoin_Params();
 }
 
 void FindMints(vector<CMintMeta> vMintsToFind, vector<CMintMeta>& vMintsToUpdate, vector<CMintMeta>& vMissingMints)
@@ -1714,7 +1714,7 @@ bool AcceptToMemoryPool(CTxMemPool& pool, CValidationState& state, const CTransa
                 hash.ToString(),
                 nFees, ::minRelayTxFee.GetFee(nSize) * 10000);
 
-        
+
         unsigned int scriptVerifyFlags = STANDARD_SCRIPT_VERIFY_FLAGS;
         if (!Params().RequireStandard()) {
             scriptVerifyFlags = GetArg("-promiscuousmempoolflags", scriptVerifyFlags);
@@ -1836,7 +1836,7 @@ bool AcceptableInputs(CTxMemPool& pool, CValidationState& state, const CTransact
             }
         }
     }
-    
+
     // Check for conflicts with in-memory transactions
     if (!tx.IsZerocoinSpend()) {
         LOCK(pool.cs); // protect pool.mapNextTx
@@ -2155,23 +2155,23 @@ double ConvertBitsToDouble(unsigned int nBits)
 int64_t GetBlockValue(int nHeight)
 {
     if (nHeight == 0) {
-        return 17500000 * COIN;
+        return 10000000 * COIN;
     } else if (nHeight > 0 && nHeight <= 200) {
-        return 2500 * COIN;
+        return 500 * COIN;
     } else if (nHeight > 200 && nHeight <= 775600) {
-        return 7 * COIN;
+        return 70 * COIN;
     } else if (nHeight > 775600 && nHeight <= 1043999) {
-        return 4.5 * COIN;
+        return 45 * COIN;
     } else if (nHeight > 1043999 && nHeight <= 1562398) {
-        return 3.6 * COIN;
+        return 36 * COIN;
     } else {
-        return 2.7 * COIN;
+        return 27 * COIN;
     }
 }
 
 int64_t GetMasternodePayment(int nHeight, int64_t blockValue, int nMasternodeCount)
 {
-    int64_t ret = blockValue / 5 * 3;
+    int64_t ret = blockValue / 3 * 1;
     return ret;
 }
 
@@ -3010,7 +3010,7 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
             if (!view.HaveInputs(tx))
                 return state.DoS(100, error("ConnectBlock() : inputs missing/spent"),
                     REJECT_INVALID, "bad-txns-inputs-missingorspent");
-            
+
             // Check that zPHR mints are not already known
             if (tx.IsZerocoinMint()) {
                 for (auto& out : tx.vout) {
@@ -4317,7 +4317,7 @@ bool ContextualCheckBlock(const CBlock& block, CValidationState& state, CBlockIn
         if(block.nVersion < Params().Zerocoin_HeaderVersion())
             return state.DoS(50, error("CheckBlockHeader() : block version must be above 4 after ZerocoinStartHeight"),
             REJECT_INVALID, "block-version");
-        
+
         vector<CBigNum> vBlockSerials;
         for (const CTransaction& tx : block.vtx) {
             if (!CheckTransaction(tx, true, chainActive.Height() + 1 >= Params().Zerocoin_StartHeight(), state, GetSporkValue(SPORK_17_SEGWIT_ACTIVATION) < block.nTime))
@@ -5768,9 +5768,11 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
             pfrom->cleanSubVer = SanitizeString(pfrom->strSubVer);
         }
         // broken releases with wrong blockchain data
-        if (pfrom->cleanSubVer == "/Phore Core:1.1.0/" ||
+        if (pfrom->cleanSubVer == "/Phore Core:1.1.0/" 
+            /*||
             pfrom->cleanSubVer == "/Phore Core:1.3.0/" ||
-            pfrom->cleanSubVer == "/Phore Core:1.3.1/") {
+            pfrom->cleanSubVer == "/Phore Core:1.3.1/"*/
+            ) {
             LOCK(cs_main);
             Misbehaving(pfrom->GetId(), 100); // instantly ban them because they have bad block data
             return false;
