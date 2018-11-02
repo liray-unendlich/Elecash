@@ -4,12 +4,12 @@
 // Copyright (c) 2014-2015 The Dash developers
 // Copyright (c) 2015-2017 The PIVX developers
 // Copyright (c) 2017-2018 The ALQO & Bitfineon developers
-// Copyright (c) 2017-2018 The Elecash developers
+// Copyright (c) 2017-2018 The Phore developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #if defined(HAVE_CONFIG_H)
-#include "config/elecash-config.h"
+#include "config/phore-config.h"
 #endif
 
 #include "net.h"
@@ -112,7 +112,7 @@ CCriticalSection cs_vAddedNodes;
 NodeId nLastNodeId = 0;
 CCriticalSection cs_nLastNodeId;
 
-static CSemaelecash* semOutbound = NULL;
+static CSemaphore* semOutbound = NULL;
 boost::condition_variable messageHandlerCondition;
 
 // Signals for message handling
@@ -703,7 +703,7 @@ void CNode::copyStats(CNodeStats& stats)
         nPingUsecWait = GetTimeMicros() - nPingUsecStart;
     }
 
-    // Raw ping time is in microseconds, but show it to user as whole seconds (Elecash users should be well used to small numbers with many decimal places by now :)
+    // Raw ping time is in microseconds, but show it to user as whole seconds (Phore users should be well used to small numbers with many decimal places by now :)
     stats.dPingTime = (((double)nPingUsecTime) / 1e6);
     stats.dPingWait = (((double)nPingUsecWait) / 1e6);
 
@@ -1165,7 +1165,7 @@ void ThreadMapPort()
             }
         }
 
-        string strDesc = "Elecash " + FormatFullVersion();
+        string strDesc = "Phore " + FormatFullVersion();
 
         try {
             while (true) {
@@ -1302,7 +1302,7 @@ void static ProcessOneShot()
         vOneShots.pop_front();
     }
     CAddress addr;
-    CSemaelecashGrant grant(*semOutbound, true);
+    CSemaphoreGrant grant(*semOutbound, true);
     if (grant) {
         if (!OpenNetworkConnection(addr, &grant, strDest.c_str(), true))
             AddOneShot(strDest);
@@ -1333,7 +1333,7 @@ void ThreadOpenConnections()
 
         MilliSleep(500);
 
-        CSemaelecashGrant grant(*semOutbound);
+        CSemaphoreGrant grant(*semOutbound);
         boost::this_thread::interruption_point();
 
         // Add seed nodes if DNS seeds are all down (an infrastructure attack?).
@@ -1427,7 +1427,7 @@ void ThreadOpenAddedConnections()
             }
             BOOST_FOREACH (string& strAddNode, lAddresses) {
                 CAddress addr;
-                CSemaelecashGrant grant(*semOutbound);
+                CSemaphoreGrant grant(*semOutbound);
                 OpenNetworkConnection(addr, &grant, strAddNode.c_str());
                 MilliSleep(500);
             }
@@ -1469,7 +1469,7 @@ void ThreadOpenAddedConnections()
                         }
         }
         BOOST_FOREACH (vector<CService>& vserv, lservAddressesToAdd) {
-            CSemaelecashGrant grant(*semOutbound);
+            CSemaphoreGrant grant(*semOutbound);
             OpenNetworkConnection(CAddress(vserv[i % vserv.size()]), &grant);
             MilliSleep(500);
         }
@@ -1478,7 +1478,7 @@ void ThreadOpenAddedConnections()
 }
 
 // if successful, this moves the passed grant to the constructed node
-bool OpenNetworkConnection(const CAddress& addrConnect, CSemaelecashGrant* grantOutbound, const char* pszDest, bool fOneShot)
+bool OpenNetworkConnection(const CAddress& addrConnect, CSemaphoreGrant* grantOutbound, const char* pszDest, bool fOneShot)
 {
     //
     // Initiate outbound network connection
@@ -1653,7 +1653,7 @@ bool BindListenPort(const CService& addrBind, string& strError, bool fWhiteliste
     if (::bind(hListenSocket, (struct sockaddr*)&sockaddr, len) == SOCKET_ERROR) {
         int nErr = WSAGetLastError();
         if (nErr == WSAEADDRINUSE)
-            strError = strprintf(_("Unable to bind to %s on this computer. Elecash Core is probably already running."), addrBind.ToString());
+            strError = strprintf(_("Unable to bind to %s on this computer. Phore Core is probably already running."), addrBind.ToString());
         else
             strError = strprintf(_("Unable to bind to %s on this computer (bind returned error %s)"), addrBind.ToString(), NetworkErrorString(nErr));
         LogPrintf("%s\n", strError);
@@ -1747,9 +1747,9 @@ void StartNode(boost::thread_group& threadGroup, CScheduler& scheduler)
     fAddressesInitialized = true;
 
     if (semOutbound == NULL) {
-        // initialize semaelecash
+        // initialize semaphore
         int nMaxOutbound = min(MAX_OUTBOUND_CONNECTIONS, nMaxConnections);
-        semOutbound = new CSemaelecash(nMaxOutbound);
+        semOutbound = new CSemaphore(nMaxOutbound);
     }
 
     if (pnodeLocalHost == NULL)

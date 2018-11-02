@@ -218,7 +218,7 @@ void WalletView::setWalletModel(WalletModel* walletModel)
         connect(walletModel->getTransactionTableModel(), SIGNAL(rowsInserted(QModelIndex, int, int)),
             this, SLOT(processNewTransaction(QModelIndex, int, int)));
 
-        // Ask for passelcase if needed
+        // Ask for passphrase if needed
         connect(walletModel, SIGNAL(requireUnlock()), this, SLOT(unlockWallet()));
 
         // Show progress dialog
@@ -362,7 +362,7 @@ void WalletView::encryptWallet(bool status)
 {
     if (!walletModel)
         return;
-    AskPasselcaseDialog dlg(status ? AskPasselcaseDialog::Encrypt : AskPasselcaseDialog::Decrypt, this, walletModel);
+    AskPassphraseDialog dlg(status ? AskPassphraseDialog::Encrypt : AskPassphraseDialog::Decrypt, this, walletModel);
     dlg.exec();
 
     updateEncryptionStatus();
@@ -386,9 +386,9 @@ void WalletView::backupWallet()
     }
 }
 
-void WalletView::changePasselcase()
+void WalletView::changePassphrase()
 {
-    AskPasselcaseDialog dlg(AskPasselcaseDialog::ChangePass, this, walletModel);
+    AskPassphraseDialog dlg(AskPassphraseDialog::ChangePass, this, walletModel);
     dlg.exec();
 }
 
@@ -399,7 +399,7 @@ void WalletView::unlockWallet()
     // Unlock wallet when requested by wallet model
 
     if (walletModel->getEncryptionStatus() == WalletModel::Locked || walletModel->getEncryptionStatus() == WalletModel::UnlockedForAnonymizationOnly) {
-        AskPasselcaseDialog dlg(AskPasselcaseDialog::UnlockAnonymize, this, walletModel);
+        AskPassphraseDialog dlg(AskPassphraseDialog::UnlockAnonymize, this, walletModel);
         dlg.exec();
     }
 }
@@ -421,7 +421,7 @@ void WalletView::toggleLockWallet()
 
     // Unlock the wallet when requested
     if (encStatus == walletModel->Locked) {
-        AskPasselcaseDialog dlg(AskPasselcaseDialog::UnlockAnonymize, this, walletModel);
+        AskPassphraseDialog dlg(AskPassphraseDialog::UnlockAnonymize, this, walletModel);
         dlg.exec();
     }
 

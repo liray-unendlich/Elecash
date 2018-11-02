@@ -17,8 +17,8 @@
 #include <QMessageBox>
 #include <QPushButton>
 
-AskPasselcaseDialog::AskPasselcaseDialog(Mode mode, QWidget* parent, WalletModel* model) : QDialog(parent),
-                                                                                           ui(new Ui::AskPasselcaseDialog),
+AskPassphraseDialog::AskPassphraseDialog(Mode mode, QWidget* parent, WalletModel* model) : QDialog(parent),
+                                                                                           ui(new Ui::AskPassphraseDialog),
                                                                                            mode(mode),
                                                                                            model(model),
                                                                                            fCapsLock(false)
@@ -34,9 +34,9 @@ AskPasselcaseDialog::AskPasselcaseDialog(Mode mode, QWidget* parent, WalletModel
     ui->passEdit2->setMinimumSize(ui->passEdit2->sizeHint());
     ui->passEdit3->setMinimumSize(ui->passEdit3->sizeHint());
 
-    ui->passEdit1->setMaxLength(MAX_PASSELCASE_SIZE);
-    ui->passEdit2->setMaxLength(MAX_PASSELCASE_SIZE);
-    ui->passEdit3->setMaxLength(MAX_PASSELCASE_SIZE);
+    ui->passEdit1->setMaxLength(MAX_PASSPHRASE_SIZE);
+    ui->passEdit2->setMaxLength(MAX_PASSPHRASE_SIZE);
+    ui->passEdit3->setMaxLength(MAX_PASSPHRASE_SIZE);
 
     // Setup Caps Lock detection.
     ui->passEdit1->installEventFilter(this);
@@ -46,8 +46,8 @@ AskPasselcaseDialog::AskPasselcaseDialog(Mode mode, QWidget* parent, WalletModel
     this->model = model;
 
     switch (mode) {
-    case Encrypt: // Ask passelcase x2
-        ui->warningLabel->setText(tr("Enter the new passelcase to the wallet.<br/>Please use a passelcase of <b>ten or more random characters</b>, or <b>eight or more words</b>."));
+    case Encrypt: // Ask passphrase x2
+        ui->warningLabel->setText(tr("Enter the new passphrase to the wallet.<br/>Please use a passphrase of <b>ten or more random characters</b>, or <b>eight or more words</b>."));
         ui->passLabel1->hide();
         ui->passEdit1->hide();
         setWindowTitle(tr("Encrypt wallet"));
@@ -55,25 +55,25 @@ AskPasselcaseDialog::AskPasselcaseDialog(Mode mode, QWidget* parent, WalletModel
     case UnlockAnonymize:
         ui->anonymizationCheckBox->setChecked(true);
         ui->anonymizationCheckBox->show();
-    case Unlock: // Ask passelcase
-        ui->warningLabel->setText(tr("This operation needs your wallet passelcase to unlock the wallet."));
+    case Unlock: // Ask passphrase
+        ui->warningLabel->setText(tr("This operation needs your wallet passphrase to unlock the wallet."));
         ui->passLabel2->hide();
         ui->passEdit2->hide();
         ui->passLabel3->hide();
         ui->passEdit3->hide();
         setWindowTitle(tr("Unlock wallet"));
         break;
-    case Decrypt: // Ask passelcase
-        ui->warningLabel->setText(tr("This operation needs your wallet passelcase to decrypt the wallet."));
+    case Decrypt: // Ask passphrase
+        ui->warningLabel->setText(tr("This operation needs your wallet passphrase to decrypt the wallet."));
         ui->passLabel2->hide();
         ui->passEdit2->hide();
         ui->passLabel3->hide();
         ui->passEdit3->hide();
         setWindowTitle(tr("Decrypt wallet"));
         break;
-    case ChangePass: // Ask old passelcase + new passelcase x2
-        setWindowTitle(tr("Change passelcase"));
-        ui->warningLabel->setText(tr("Enter the old and new passelcase to the wallet."));
+    case ChangePass: // Ask old passphrase + new passphrase x2
+        setWindowTitle(tr("Change passphrase"));
+        ui->warningLabel->setText(tr("Enter the old and new passphrase to the wallet."));
         break;
     }
 
@@ -85,7 +85,7 @@ AskPasselcaseDialog::AskPasselcaseDialog(Mode mode, QWidget* parent, WalletModel
     connect(ui->passEdit3, SIGNAL(textChanged(QString)), this, SLOT(textChanged()));
 }
 
-AskPasselcaseDialog::~AskPasselcaseDialog()
+AskPassphraseDialog::~AskPassphraseDialog()
 {
     // Attempt to overwrite text so that they do not linger around in memory
     ui->passEdit1->setText(QString(" ").repeated(ui->passEdit1->text().size()));
@@ -94,14 +94,14 @@ AskPasselcaseDialog::~AskPasselcaseDialog()
     delete ui;
 }
 
-void AskPasselcaseDialog::accept()
+void AskPassphraseDialog::accept()
 {
     SecureString oldpass, newpass1, newpass2;
     if (!model)
         return;
-    oldpass.reserve(MAX_PASSELCASE_SIZE);
-    newpass1.reserve(MAX_PASSELCASE_SIZE);
-    newpass2.reserve(MAX_PASSELCASE_SIZE);
+    oldpass.reserve(MAX_PASSPHRASE_SIZE);
+    newpass1.reserve(MAX_PASSPHRASE_SIZE);
+    newpass2.reserve(MAX_PASSPHRASE_SIZE);
     // TODO: get rid of this .c_str() by implementing SecureString::operator=(std::string)
     // Alternately, find a way to make this input mlock()'d to begin with.
     oldpass.assign(ui->passEdit1->text().toStdString().c_str());
@@ -111,11 +111,11 @@ void AskPasselcaseDialog::accept()
     switch (mode) {
     case Encrypt: {
         if (newpass1.empty() || newpass2.empty()) {
-            // Cannot encrypt with empty passelcase
+            // Cannot encrypt with empty passphrase
             break;
         }
         QMessageBox::StandardButton retval = QMessageBox::question(this, tr("Confirm wallet encryption"),
-            tr("Warning: If you encrypt your wallet and lose your passelcase, you will <b>LOSE ALL OF YOUR ELC</b>!") + "<br><br>" + tr("Are you sure you wish to encrypt your wallet?"),
+            tr("Warning: If you encrypt your wallet and lose your passphrase, you will <b>LOSE ALL OF YOUR PHR</b>!") + "<br><br>" + tr("Are you sure you wish to encrypt your wallet?"),
             QMessageBox::Yes | QMessageBox::Cancel,
             QMessageBox::Cancel);
         if (retval == QMessageBox::Yes) {
@@ -123,9 +123,9 @@ void AskPasselcaseDialog::accept()
                 if (model->setWalletEncrypted(true, newpass1)) {
                     QMessageBox::warning(this, tr("Wallet encrypted"),
                         "<qt>" +
-                            tr("Elecash will close now to finish the encryption process. "
+                            tr("Phore will close now to finish the encryption process. "
                                "Remember that encrypting your wallet cannot fully protect "
-                               "your ELCs from being stolen by malware infecting your computer.") +
+                               "your PHRs from being stolen by malware infecting your computer.") +
                             "<br><br><b>" +
                             tr("IMPORTANT: Any previous backups you have made of your wallet file "
                                "should be replaced with the newly generated, encrypted wallet file. "
@@ -140,7 +140,7 @@ void AskPasselcaseDialog::accept()
                 QDialog::accept(); // Success
             } else {
                 QMessageBox::critical(this, tr("Wallet encryption failed"),
-                    tr("The supplied passelcases do not match."));
+                    tr("The supplied passphrases do not match."));
             }
         } else {
             QDialog::reject(); // Cancelled
@@ -150,7 +150,7 @@ void AskPasselcaseDialog::accept()
     case Unlock:
         if (!model->setWalletLocked(false, oldpass, ui->anonymizationCheckBox->isChecked())) {
             QMessageBox::critical(this, tr("Wallet unlock failed"),
-                tr("The passelcase entered for the wallet decryption was incorrect."));
+                tr("The passphrase entered for the wallet decryption was incorrect."));
         } else {
             QDialog::accept(); // Success
         }
@@ -158,50 +158,50 @@ void AskPasselcaseDialog::accept()
     case Decrypt:
         if (!model->setWalletEncrypted(false, oldpass)) {
             QMessageBox::critical(this, tr("Wallet decryption failed"),
-                tr("The passelcase entered for the wallet decryption was incorrect."));
+                tr("The passphrase entered for the wallet decryption was incorrect."));
         } else {
             QDialog::accept(); // Success
         }
         break;
     case ChangePass:
         if (newpass1 == newpass2) {
-            if (model->changePasselcase(oldpass, newpass1)) {
+            if (model->changePassphrase(oldpass, newpass1)) {
                 QMessageBox::information(this, tr("Wallet encrypted"),
-                    tr("Wallet passelcase was successfully changed."));
+                    tr("Wallet passphrase was successfully changed."));
                 QDialog::accept(); // Success
             } else {
                 QMessageBox::critical(this, tr("Wallet encryption failed"),
-                    tr("The passelcase entered for the wallet decryption was incorrect."));
+                    tr("The passphrase entered for the wallet decryption was incorrect."));
             }
         } else {
             QMessageBox::critical(this, tr("Wallet encryption failed"),
-                tr("The supplied passelcases do not match."));
+                tr("The supplied passphrases do not match."));
         }
         break;
     }
 }
 
-void AskPasselcaseDialog::textChanged()
+void AskPassphraseDialog::textChanged()
 {
     // Validate input, set Ok button to enabled when acceptable
     bool acceptable = false;
     switch (mode) {
-    case Encrypt: // New passelcase x2
+    case Encrypt: // New passphrase x2
         acceptable = !ui->passEdit2->text().isEmpty() && !ui->passEdit3->text().isEmpty();
         break;
-    case UnlockAnonymize: // Old passelcase x1
-    case Unlock:          // Old passelcase x1
+    case UnlockAnonymize: // Old passphrase x1
+    case Unlock:          // Old passphrase x1
     case Decrypt:
         acceptable = !ui->passEdit1->text().isEmpty();
         break;
-    case ChangePass: // Old passelcase x1, new passelcase x2
+    case ChangePass: // Old passphrase x1, new passphrase x2
         acceptable = !ui->passEdit1->text().isEmpty() && !ui->passEdit2->text().isEmpty() && !ui->passEdit3->text().isEmpty();
         break;
     }
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(acceptable);
 }
 
-bool AskPasselcaseDialog::event(QEvent* event)
+bool AskPassphraseDialog::event(QEvent* event)
 {
     // Detect Caps Lock key press.
     if (event->type() == QEvent::KeyPress) {
@@ -218,7 +218,7 @@ bool AskPasselcaseDialog::event(QEvent* event)
     return QWidget::event(event);
 }
 
-bool AskPasselcaseDialog::eventFilter(QObject* object, QEvent* event)
+bool AskPassphraseDialog::eventFilter(QObject* object, QEvent* event)
 {
     /* Detect Caps Lock.
      * There is no good OS-independent way to check a key state in Qt, but we

@@ -6,7 +6,7 @@
 #define BITCOIN_QT_BITCOINGUI_H
 
 #if defined(HAVE_CONFIG_H)
-#include "config/elecash-config.h"
+#include "config/phore-config.h"
 #endif
 
 #include "amount.h"
@@ -113,7 +113,7 @@ private:
     QAction* toggleHideAction;
     QAction* encryptWalletAction;
     QAction* backupWalletAction;
-    QAction* changePasselcaseAction;
+    QAction* changePassphraseAction;
     QAction* unlockWalletAction;
     QAction* lockWalletAction;
     QAction* aboutQtAction;

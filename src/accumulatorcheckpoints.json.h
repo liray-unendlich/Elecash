@@ -2,8 +2,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef ELECASH_ACCUMULATORCHECKPOINTS_JSON_H
-#define ELECASH_ACCUMULATORCHECKPOINTS_JSON_H
+#ifndef PHORE_ACCUMULATORCHECKPOINTS_JSON_H
+#define PHORE_ACCUMULATORCHECKPOINTS_JSON_H
 
 #include <string>
 std::string GetMainCheckpoints() {
@@ -310,4 +310,4 @@ std::string GetRegTestCheckpoints() {
     return strRegTestCheckpoints;
 }
 
-#endif //ELECASH_ACCUMULATORCHECKPOINTS_JSON_H
+#endif //PHORE_ACCUMULATORCHECKPOINTS_JSON_H

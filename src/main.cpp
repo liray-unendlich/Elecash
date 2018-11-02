@@ -3,7 +3,7 @@
 // Copyright (c) 2012-2013 The PPCoin developers
 // Copyright (c) 2014-2015 The Dash developers
 // Copyright (c) 2015-2017 The PIVX developers
-// Copyright (c) 2017-2018 The Elecash developers
+// Copyright (c) 2017-2018 The Phore developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -55,7 +55,7 @@ using namespace std;
 using namespace libzerocoin;
 
 #if defined(NDEBUG)
-#error "Elecash cannot be compiled without assertions."
+#error "Phore cannot be compiled without assertions."
 #endif
 
 // 6 comes from OPCODE (1) + vch.size() (1) + BIGNUM size (4)
@@ -92,7 +92,7 @@ bool fAlerts = DEFAULT_ALERTS;
 unsigned int nStakeMinAge = 3 * 60 * 60;
 int64_t nReserveBalance = 0;
 
-/** Fees smaller than this (in uelc) are considered zero fee (for relaying and mining)
+/** Fees smaller than this (in uphr) are considered zero fee (for relaying and mining)
  * We are ~100 times smaller then bitcoin now (2015-06-23), set minRelayTxFee only 10 times higher
  * so it's still 10 times lower comparing to bitcoin.
  */
@@ -117,7 +117,7 @@ static void CheckBlockIndex();
 /** Constant stuff for coinbase transactions we create: */
 CScript COINBASE_FLAGS;
 
-const string strMessageMagic = "Elecash Signed Message:\n";
+const string strMessageMagic = "DarkNet Signed Message:\n";
 
 // Internal stuff
 namespace
@@ -948,7 +948,7 @@ int GetZerocoinStartHeight()
 }
 
 libzerocoin::ZerocoinParams* GetZerocoinParams(int nHeight) {
-    return nHeight > Params().Zerocoin_LastOldParams() ? Params().Zerocoin_Params() : Params().OldZerocoin_Params();
+    return nHeight > Params().Zerocoin_LastOldParams() ? Params().Zerocoin_Params() : Params().OldZerocoin_Params(); 
 }
 
 void FindMints(vector<CMintMeta> vMintsToFind, vector<CMintMeta>& vMintsToUpdate, vector<CMintMeta>& vMissingMints)
@@ -1247,16 +1247,16 @@ bool ContextualCheckZerocoinMint(const CTransaction& tx, const PublicCoin& coin,
 }
 
 bool ContextualCheckZerocoinSpend(const CTransaction& tx, const CoinSpend& spend, CBlockIndex* pindex, const uint256& hashBlock) {
-    //Check to see if the zELC is properly signed
+    //Check to see if the zPHR is properly signed
     if (pindex->nHeight > Params().Zerocoin_LastOldParams()) {
         if (!spend.HasValidSignature())
-            return error("%s: V2 zELC spend does not have a valid signature", __func__);
+            return error("%s: V2 zPHR spend does not have a valid signature", __func__);
 
         libzerocoin::SpendType expectedType = libzerocoin::SpendType::SPEND;
         if (tx.IsCoinStake())
             expectedType = libzerocoin::SpendType::STAKE;
         if (spend.getSpendType() != expectedType) {
-            return error("%s: trying to spend zELC without the correct spend type. txid=%s", __func__,
+            return error("%s: trying to spend zPHR without the correct spend type. txid=%s", __func__,
                          tx.GetHash().GetHex());
         }
     }
@@ -1264,13 +1264,13 @@ bool ContextualCheckZerocoinSpend(const CTransaction& tx, const CoinSpend& spend
     //Reject serial's that are already in the blockchain
     int nHeightTx = 0;
     if (IsSerialInBlockchain(spend.getCoinSerialNumber(), nHeightTx))
-        return error("%s : zELC spend with serial %s is already in block %d\n", __func__,
+        return error("%s : zPHR spend with serial %s is already in block %d\n", __func__,
                      spend.getCoinSerialNumber().GetHex(), nHeightTx);
 
     //Reject serial's that are not in the acceptable value range
     libzerocoin::ZerocoinParams* paramsToUse = spend.getVersion() < libzerocoin::PrivateCoin::PUBKEY_VERSION ? Params().OldZerocoin_Params() : Params().Zerocoin_Params();
     if (!spend.HasValidSerial(paramsToUse))
-        return error("%s : zELC spend with serial %s from tx %s is not in valid range\n", __func__,
+        return error("%s : zPHR spend with serial %s from tx %s is not in valid range\n", __func__,
                      spend.getCoinSerialNumber().GetHex(), tx.GetHash().GetHex());
 
     return true;
@@ -1576,7 +1576,7 @@ bool AcceptToMemoryPool(CTxMemPool& pool, CValidationState& state, const CTransa
             //Check that txid is not already in the chain
             int nHeightTx = 0;
             if (IsTransactionInChain(tx.GetHash(), nHeightTx))
-                return state.Invalid(error("AcceptToMemoryPool : zELC spend tx %s already in block %d",
+                return state.Invalid(error("AcceptToMemoryPool : zPHR spend tx %s already in block %d",
                                            tx.GetHash().GetHex(), nHeightTx), REJECT_DUPLICATE, "bad-txns-inputs-spent");
 
             //Check for double spending of serial #'s
@@ -1586,7 +1586,7 @@ bool AcceptToMemoryPool(CTxMemPool& pool, CValidationState& state, const CTransa
                 CoinSpend spend = TxInToZerocoinSpend(txIn);
                 if (!ContextualCheckZerocoinSpend(tx, spend, chainActive.Tip(), 0))
                     return state.Invalid(error("%s: ContextualCheckZerocoinSpend failed for tx %s", __func__,
-                                               tx.GetHash().GetHex()), REJECT_INVALID, "bad-txns-invalid-zelc");
+                                               tx.GetHash().GetHex()), REJECT_INVALID, "bad-txns-invalid-zphr");
             }
         } else {
             LOCK(pool.cs);
@@ -1608,7 +1608,7 @@ bool AcceptToMemoryPool(CTxMemPool& pool, CValidationState& state, const CTransa
                 }
             }
 
-            // Check that zELC mints are not already known
+            // Check that zPHR mints are not already known
             if (tx.IsZerocoinMint()) {
                 for (auto& out : tx.vout) {
                     if (!out.IsZerocoinMint())
@@ -1714,7 +1714,7 @@ bool AcceptToMemoryPool(CTxMemPool& pool, CValidationState& state, const CTransa
                 hash.ToString(),
                 nFees, ::minRelayTxFee.GetFee(nSize) * 10000);
 
-
+        
         unsigned int scriptVerifyFlags = STANDARD_SCRIPT_VERIFY_FLAGS;
         if (!Params().RequireStandard()) {
             scriptVerifyFlags = GetArg("-promiscuousmempoolflags", scriptVerifyFlags);
@@ -1836,7 +1836,7 @@ bool AcceptableInputs(CTxMemPool& pool, CValidationState& state, const CTransact
             }
         }
     }
-
+    
     // Check for conflicts with in-memory transactions
     if (!tx.IsZerocoinSpend()) {
         LOCK(pool.cs); // protect pool.mapNextTx
@@ -1875,7 +1875,7 @@ bool AcceptableInputs(CTxMemPool& pool, CValidationState& state, const CTransact
                 }
             }
 
-            // Check that zELC mints are not already known
+            // Check that zPHR mints are not already known
             if (tx.IsZerocoinMint()) {
                 for (auto& out : tx.vout) {
                     if (!out.IsZerocoinMint())
@@ -2154,50 +2154,24 @@ double ConvertBitsToDouble(unsigned int nBits)
 
 int64_t GetBlockValue(int nHeight)
 {
-    int64_t nSubsidy = 0;
-
     if (nHeight == 0) {
-        nSubsidy = 10000000 * COIN;
-    } else if (nHeight > 0 && nHeight <= 43200) {
-        nSubsidy = 150 * COIN;
-    } else if (nHeight > 43200 && nHeight <= 129600) {
-        nSubsidy = 140 * COIN;
-    } else if (nHeight > 129600 && nHeight <= 345600) {
-        nSubsidy = 120 * COIN;
-    } else if (nHeight > 345600 && nHeight <= 475200) {
-        nSubsidy = 110 * COIN;
-    } else if (nHeight > 475200 && nHeight <= 993600) {
-        nSubsidy = 100 * COIN;
-    } else if (nHeight > 993600 && nHeight <= 1512000) {
-        nSubsidy = 95 * COIN;
-    } else if (nHeight > 1512000 && nHeight <= 2030400) {
-        nSubsidy = 90 * COIN;
-    } else if (nHeight > 2030400 && nHeight <= 2548800) {
-        nSubsidy = 90 * COIN;
+        return 17500000 * COIN;
+    } else if (nHeight > 0 && nHeight <= 200) {
+        return 2500 * COIN;
+    } else if (nHeight > 200 && nHeight <= 775600) {
+        return 7 * COIN;
+    } else if (nHeight > 775600 && nHeight <= 1043999) {
+        return 4.5 * COIN;
+    } else if (nHeight > 1043999 && nHeight <= 1562398) {
+        return 3.6 * COIN;
     } else {
-        nSubsidy = 85 * COIN;
+        return 2.7 * COIN;
     }
-    return nSubsidy;
 }
 
 int64_t GetMasternodePayment(int nHeight, int64_t blockValue, int nMasternodeCount)
 {
-    int64_t ret = 0;
-    if (nHeight > 0 && nHeight <= 9999) {
-        ret = 25 * COIN;
-    } else if (nHeight > 9999 && nHeight <= 43200) {
-        ret = 50 * COIN;
-    } else if (nHeight > 43200 && nHeight <= 129600) {
-        ret = 40 * COIN;
-    } else if (nHeight > 129600 && nHeight <= 475200) {
-        ret = 35 * COIN;
-    } else if (nHeight > 475200 && nHeight <= 2548800) {
-        ret = 30 * COIN;
-    } else if (nHeight > 2548800 && nHeight <= 3067200) {
-        ret = 25 * COIN;
-    } else {
-        ret = 0;
-    }
+    int64_t ret = blockValue / 5 * 3;
     return ret;
 }
 
@@ -2495,7 +2469,7 @@ bool DisconnectBlock(CBlock& block, CValidationState& state, CBlockIndex* pindex
         const CTransaction& tx = block.vtx[i];
 
         /** UNDO ZEROCOIN DATABASING
-         * note we only undo zerocoin databasing in the following statement, value to and from Elecash
+         * note we only undo zerocoin databasing in the following statement, value to and from Phore
          * addresses should still be handled by the typical bitcoin based undo code
          * */
         if (tx.ContainsZerocoins()) {
@@ -2629,11 +2603,11 @@ static CCheckQueue<CScriptCheck> scriptcheckqueue(128);
 
 void ThreadScriptCheck()
 {
-    RenameThread("elecash-scriptch");
+    RenameThread("phore-scriptch");
     scriptcheckqueue.Thread();
 }
 
-void RecalculateZELCMinted()
+void RecalculateZPHRMinted()
 {
     CBlockIndex *pindex = chainActive[Params().Zerocoin_StartHeight()];
     int nHeightEnd = chainActive.Height();
@@ -2660,14 +2634,14 @@ void RecalculateZELCMinted()
     }
 }
 
-void RecalculateZELCSpent()
+void RecalculateZPHRSpent()
 {
     CBlockIndex* pindex = chainActive[Params().Zerocoin_StartHeight()];
     while (true) {
         if (pindex->nHeight % 1000 == 0)
             LogPrintf("%s : block %d...\n", __func__, pindex->nHeight);
 
-        //Rewrite zELC supply
+        //Rewrite zPHR supply
         CBlock block;
         assert(ReadBlockFromDisk(block, pindex));
 
@@ -2676,13 +2650,13 @@ void RecalculateZELCSpent()
         //Reset the supply to previous block
         pindex->mapZerocoinSupply = pindex->pprev->mapZerocoinSupply;
 
-        //Add mints to zELC supply
+        //Add mints to zPHR supply
         for (auto denom : libzerocoin::zerocoinDenomList) {
             long nDenomAdded = count(pindex->vMintDenominationsInBlock.begin(), pindex->vMintDenominationsInBlock.end(), denom);
             pindex->mapZerocoinSupply.at(denom) += nDenomAdded;
         }
 
-        //Remove spends from zELC supply
+        //Remove spends from zPHR supply
         for (auto denom : listDenomsSpent)
             pindex->mapZerocoinSupply.at(denom)--;
 
@@ -2696,7 +2670,7 @@ void RecalculateZELCSpent()
     }
 }
 
-bool RecalculateELCSupply(int nHeightStart)
+bool RecalculatePHRSupply(int nHeightStart)
 {
     if (nHeightStart > chainActive.Height())
         return false;
@@ -2756,7 +2730,7 @@ bool RecalculateELCSupply(int nHeightStart)
 
 bool ReindexAccumulators(list<uint256>& listMissingCheckpoints, string& strError)
 {
-    // Elecash: recalculate Accumulator Checkpoints that failed to database properly
+    // Phore: recalculate Accumulator Checkpoints that failed to database properly
     if (!listMissingCheckpoints.empty() && chainActive.Height() >= Params().Zerocoin_StartHeight()) {
         //uiInterface.InitMessage(_("Calculating missing accumulators..."));
         LogPrintf("%s : finding missing checkpoints\n", __func__);
@@ -2803,7 +2777,7 @@ bool ReindexAccumulators(list<uint256>& listMissingCheckpoints, string& strError
     return true;
 }
 
-bool UpdateZELCSupply(const CBlock& block, CBlockIndex* pindex)
+bool UpdateZPHRSupply(const CBlock& block, CBlockIndex* pindex)
 {
     std::list<CZerocoinMint> listMints;
     BlockToZerocoinMintList(block, listMints);
@@ -3016,7 +2990,7 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
                     return state.DoS(100, error("%s: failed to add block %s with invalid zerocoinspend", __func__, tx.GetHash().GetHex()), REJECT_INVALID);
                 }
 
-            // Check that zELC mints are not already known
+            // Check that zPHR mints are not already known
             if (tx.IsZerocoinMint()) {
                 for (auto& out : tx.vout) {
                     if (!out.IsZerocoinMint())
@@ -3036,8 +3010,8 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
             if (!view.HaveInputs(tx))
                 return state.DoS(100, error("ConnectBlock() : inputs missing/spent"),
                     REJECT_INVALID, "bad-txns-inputs-missingorspent");
-
-            // Check that zELC mints are not already known
+            
+            // Check that zPHR mints are not already known
             if (tx.IsZerocoinMint()) {
                 for (auto& out : tx.vout) {
                     if (!out.IsZerocoinMint())
@@ -3099,14 +3073,14 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
         pos.nTxOffset += ::GetSerializeSize(tx, SER_DISK, CLIENT_VERSION);
     }
 
-    UpdateZELCSupply(block, pindex);
+    UpdateZPHRSupply(block, pindex);
 
     // track money supply and mint amount info
     CAmount nMoneySupplyPrev = pindex->pprev ? pindex->pprev->nMoneySupply : 0;
     pindex->nMoneySupply = nMoneySupplyPrev + nValueOut - nValueIn;
     pindex->nMint = pindex->nMoneySupply - nMoneySupplyPrev + nFees;
 
-//    LogPrintf("XX69----------> ConnectBlock(): nValueOut: %s, nValueIn: %s, nFees: %s, nMint: %s zELCSpent: %s\n",
+//    LogPrintf("XX69----------> ConnectBlock(): nValueOut: %s, nValueIn: %s, nFees: %s, nMint: %s zPHRSpent: %s\n",
 //              FormatMoney(nValueOut), FormatMoney(nValueIn),
 //              FormatMoney(nFees), FormatMoney(pindex->nMint), FormatMoney(nAmountZerocoinSpent));
 
@@ -3159,7 +3133,7 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
         setDirtyBlockIndex.insert(pindex);
     }
 
-    //Record zELC serials
+    //Record zPHR serials
     set<uint256> setAddedTx;
     for (pair<CoinSpend, uint256> pSpend : vSpends) {
         //record spend to database
@@ -3299,7 +3273,7 @@ void static UpdateTip(CBlockIndex* pindexNew)
 {
     chainActive.SetTip(pindexNew);
 
-    // If turned on AutoZeromint will automatically convert ELC to zELC
+    // If turned on AutoZeromint will automatically convert PHR to zPHR
     if (pwalletMain->isZeromintEnabled ())
         pwalletMain->AutoZeromint ();
 
@@ -4135,7 +4109,7 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
                 nHeight = (*mi).second->nHeight + 1;
         }
 
-        // Elecash
+        // Phore
         // It is entierly possible that we don't have enough data and this could fail
         // (i.e. the block could indeed be valid). Store the block for later consideration
         // but issue an initial reject message.
@@ -4343,19 +4317,19 @@ bool ContextualCheckBlock(const CBlock& block, CValidationState& state, CBlockIn
         if(block.nVersion < Params().Zerocoin_HeaderVersion())
             return state.DoS(50, error("CheckBlockHeader() : block version must be above 4 after ZerocoinStartHeight"),
             REJECT_INVALID, "block-version");
-
+        
         vector<CBigNum> vBlockSerials;
         for (const CTransaction& tx : block.vtx) {
             if (!CheckTransaction(tx, true, chainActive.Height() + 1 >= Params().Zerocoin_StartHeight(), state, GetSporkValue(SPORK_17_SEGWIT_ACTIVATION) < block.nTime))
                 return error("CheckBlock() : CheckTransaction failed");
 
-            // double check that there are no double spent zELC spends in this block
+            // double check that there are no double spent zPHR spends in this block
             if (tx.IsZerocoinSpend()) {
                 for (const CTxIn txIn : tx.vin) {
                     if (txIn.scriptSig.IsZerocoinSpend()) {
                         libzerocoin::CoinSpend spend = TxInToZerocoinSpend(txIn);
                         if (count(vBlockSerials.begin(), vBlockSerials.end(), spend.getCoinSerialNumber()))
-                            return state.DoS(100, error("%s : Double spending of zELC serial %s in block\n Block: %s",
+                            return state.DoS(100, error("%s : Double spending of zPHR serial %s in block\n Block: %s",
                                                         __func__, spend.getCoinSerialNumber().GetHex(), block.ToString()));
                         vBlockSerials.emplace_back(spend.getCoinSerialNumber());
                     }
@@ -4649,7 +4623,7 @@ bool ProcessNewBlock(CValidationState& state, CNode* pfrom, CBlock* pblock, CDis
         }
     }
     if (nMints || nSpends)
-        LogPrintf("%s : block contains %d zELC mints and %d zELC spends\n", __func__, nMints, nSpends);
+        LogPrintf("%s : block contains %d zPHR mints and %d zPHR spends\n", __func__, nMints, nSpends);
 
     // ppcoin: check proof-of-stake
     // Limited duplicity on stake: prevents block flood attack
@@ -5794,8 +5768,9 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
             pfrom->cleanSubVer = SanitizeString(pfrom->strSubVer);
         }
         // broken releases with wrong blockchain data
-        if (pfrom->cleanSubVer == "/Elecash Core:0.1.0/") {
-//            pfrom->cleanSubVer == "/Elecash Core:1.3.0/") {
+        if (pfrom->cleanSubVer == "/Phore Core:1.1.0/" ||
+            pfrom->cleanSubVer == "/Phore Core:1.3.0/" ||
+            pfrom->cleanSubVer == "/Phore Core:1.3.1/") {
             LOCK(cs_main);
             Misbehaving(pfrom->GetId(), 100); // instantly ban them because they have bad block data
             return false;
@@ -5838,7 +5813,7 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
         pfrom->PushMessage(NetMsgType::VERACK);
         pfrom->ssSend.SetVersion(min(pfrom->nVersion, PROTOCOL_VERSION));
 
-        // Elecash: We use certain sporks during IBD, so check to see if they are
+        // Phore: We use certain sporks during IBD, so check to see if they are
         // available. If not, ask the first peer connected for them.
         bool fMissingSporks = !pSporkDB->SporkExists(SPORK_16_ZEROCOIN_MAINTENANCE_MODE);
 
